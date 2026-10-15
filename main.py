@@ -34,6 +34,16 @@ def load_environment():
 
     return config
 
+def create_hosted_checkout(config):
+    api_url = config["CKO_API_BASE_URL"]
+    entire_url = api_url + "/hosted-payments"
+
+    print(entire_url)
+
+
+
+
+
 #Main function to test python, and break off rust
 def main():
     print("Checkout.com Hosted Checkout Demo")
@@ -47,8 +57,7 @@ def main():
     else:
         print("Environment file: Missing")
 
-    print("Checking config dictionary for required keys, and env values")
-    config= load_environment()
-    print(config)
+    print("This should be the entire url/endpoint for the hosted checkout call")
+    create_hosted_checkout(load_environment())
 
 main()
