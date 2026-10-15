@@ -35,8 +35,10 @@ def load_environment():
     return config
 
 def create_hosted_checkout(config):
+    #Constructing the entire url/endpoint for the hosted checkout call
     entire_url = config["CKO_API_BASE_URL"] + "/hosted-payments"
-    #print(entire_url)
+
+    #Loading request_payload dict with representation of request body for easy reading
     request_payload = {
         "amount": 250000,
         "currency": "USD",
@@ -51,8 +53,27 @@ def create_hosted_checkout(config):
         "failure_url": "https://example.com/failure",
         "cancel_url": "https://example.com/cancel"
     }
-    print(entire_url)
-    print(request_payload)
+
+    #Converting request payload dict to JSON string
+    json_payload = json.dumps(request_payload).encode("utf-8")
+
+    #Creating HTTP request object
+    request = urllib.request.Request(
+        url = entire_url,
+        data = json_payload,
+        headers = {
+            "Authorization": f"Bearer {config['CKO_SECRET_KEY']}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        method = "POST"
+    )
+
+    with urllib.request.urlopen(request, timeout=60) as response:
+
+    #print(json_payload)
+    #print(entire_url)
+    #print(request_payload)
 
 #Main function to test python, and break off rust
 def main():
