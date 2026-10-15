@@ -69,7 +69,15 @@ def create_hosted_checkout(config):
         method = "POST"
     )
 
+    #Recommended format to send HTTP POST request to destination endpoint
+    #Automatically closes response connection when done
     with urllib.request.urlopen(request, timeout=60) as response:
+
+        #Loading response body into result variable and then converting the JSON
+        result = json.load(response)
+        print("HTTP Status Code:", response.status)
+        print(json.dumps(result, indent=4))
+        return result
 
     #print(json_payload)
     #print(entire_url)
@@ -88,7 +96,28 @@ def main():
     else:
         print("Environment file: Missing")
 
-    print("This should be the entire url/endpoint for the hosted checkout call, and request payload")
-    create_hosted_checkout(load_environment())
+    #print("This should be the entire url/endpoint for the hosted checkout call, and request payload")
+    #create_hosted_checkout(load_environment())
 
+    config = load_environment()
+
+    try: 
+        result = create_hosted_checkout(config)
+
+        #Confirms that the checkout page was successfully created
+        print("Hosted Payments Page Created!")
+
+    except urllib.error.HTTPError as e:
+        #printing status code
+        print("HTTP Status Code:", e.code)
+
+        #printing error response
+        print("Error Response:", e.read().decode())
+
+    except urllib.error.URLError as e:
+        #seeing if there is a network/connection error
+        print("Network/Connection Error:", e.reason)
+
+
+    
 main()
