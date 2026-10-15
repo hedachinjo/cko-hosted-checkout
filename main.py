@@ -3,8 +3,6 @@ from pathlib import Path
 import json
 import urllib.request
 import urllib.error
-import webbrowser
-import uuid
 
 #Grabs directory containing main.py
 PROJECT_DIR = Path(__file__).resolve().parent
@@ -104,6 +102,7 @@ def main():
     try: 
         result = create_hosted_checkout(config)
 
+        #extracting checkout URL
         #Confirms that the checkout page was successfully created
         print("Hosted Payments Page Created!")
 
@@ -117,7 +116,5 @@ def main():
     except urllib.error.URLError as e:
         #seeing if there is a network/connection error
         print("Network/Connection Error:", e.reason)
-
-
     
 main()
