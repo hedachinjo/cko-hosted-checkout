@@ -35,14 +35,24 @@ def load_environment():
     return config
 
 def create_hosted_checkout(config):
-    api_url = config["CKO_API_BASE_URL"]
-    entire_url = api_url + "/hosted-payments"
-
+    entire_url = config["CKO_API_BASE_URL"] + "/hosted-payments"
+    #print(entire_url)
+    request_payload = {
+        "amount": 250000,
+        "currency": "USD",
+        "reference": "CKO-HOSTED-CHECKOUT-DEMO",
+        "processing_channel_id": config["CKO_PROCESSING_CHANNEL_ID"],
+        "billing":{
+            "address": {
+                "country": "US"
+            }
+        },
+        "success_url": "https://example.com/success",
+        "failure_url": "https://example.com/failure",
+        "cancel_url": "https://example.com/cancel"
+    }
     print(entire_url)
-
-
-
-
+    print(request_payload)
 
 #Main function to test python, and break off rust
 def main():
@@ -57,7 +67,7 @@ def main():
     else:
         print("Environment file: Missing")
 
-    print("This should be the entire url/endpoint for the hosted checkout call")
+    print("This should be the entire url/endpoint for the hosted checkout call, and request payload")
     create_hosted_checkout(load_environment())
 
 main()
