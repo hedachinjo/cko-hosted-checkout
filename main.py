@@ -4,7 +4,7 @@ import json
 import urllib.request
 import urllib.error
 
-#Grabs directory containing main.py
+#Grabs project folder directory, and locates where .env file is as well
 PROJECT_DIR = Path(__file__).resolve().parent
 ENVIRONMENT_FILE = PROJECT_DIR / ".env"
 
@@ -102,7 +102,6 @@ def main():
     try: 
         result = create_hosted_checkout(config)
 
-        #extracting checkout URL
         #Confirms that the checkout page was successfully created
         print("Hosted Payments Page Created!")
 
